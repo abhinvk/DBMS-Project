@@ -10,13 +10,16 @@ import base64
 app = Flask(__name__)
 
 # Change this to your secret key (can be anything, it's for extra protection)
-# app.secret_key = '1a2b3c4d5e6d7g8h9i10'
+app.secret_key = '1a2b3c4d5e6d7g8h9i10'
 
 # Enter your database connection details below
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'id21973566_localhost'
-app.config['MYSQL_PASSWORD'] = 'Community@123' #Replace ******* with  your database password.
-app.config['MYSQL_DB'] = 'id21973566_community'
+app.config['MYSQL_HOST'] = 'mysql-21472e3d-abhinvk1000-ee45.a.aivencloud.com'
+app.config['MYSQL_USER'] = 'avnadmin'
+app.config['MYSQL_PASSWORD'] = 'AVNS_T2bnTDBLfJy5n-WKH0J'  # Replace ******* with your database password.
+app.config['MYSQL_DB'] = 'defaultdb'  # Database name is defaultdb according to the provided information.
+app.config['MYSQL_PORT'] = 19355  # Port is 19355 according to the provided information.
+app.config['MYSQL_SSL_MODE'] = 'REQUIRED'  # SSL mode is REQUIRED according to the provided information.
+
 
 
 # Intialize MySQL
@@ -35,7 +38,7 @@ def login():
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM resident WHERE Email = %s', (username,))
+        cursor.execute('SELECT * FROM Resident WHERE Email = %s', (username,))
         account = cursor.fetchone()
 
         if account:
@@ -72,7 +75,7 @@ def register():
                 # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         # cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))
-        cursor.execute( "SELECT * FROM resident WHERE Email LIKE %s", [email] )
+        cursor.execute( "SELECT * FROM Resident WHERE Email LIKE %s", [email] )
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
@@ -85,7 +88,7 @@ def register():
             flash("Incorrect username/password!", "danger")
         else:
         # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO resident VALUES (NULL, %s, %s, %s,%s,%s)', (username,contact,email, hashed_password,location))
+            cursor.execute('INSERT INTO Resident VALUES (NULL, %s, %s, %s,%s,%s)', (username,contact,email, hashed_password,location))
             mysql.connection.commit()
             flash("You have successfully registered!", "success")
             return redirect(url_for('login'))
@@ -204,8 +207,8 @@ def maintenance():
         user_id = user['ResidentID']
         cursor.execute("SELECT * FROM MaintenanceRequest WHERE ResidentID = %s", (user_id,))
         user_request =  cursor.fetchall()
-
-    return render_template('maintenance.html', username=session['username'], requests=all_requests, title="Maintenance",user_id=user_id,user_request=user_request,message=message)
+        return render_template('maintenance.html', username=session['username'], requests=all_requests, title="Maintenance",user_id=user_id,user_request=user_request,message=message)
+    return render_template('maintenance.html', username=session['username'], requests=all_requests, title="Maintenance",message="No Requests")
 
 @app.route('/filter_requests', methods=['POST'])
 def filter_requests():
