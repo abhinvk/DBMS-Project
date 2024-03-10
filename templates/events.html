@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}
+  Events
+{% endblock title %}
+
+
+
+
+{% block body %}
+
+<div class="events-page">
+
+
+    <div class="event-list">
+      <h2>Events</h2>
+    </div>
+    
+    {% if message %}
+        <h4>{{ message }}</p>
+    {% else %}
+        <div id="event-table">
+
+        <table class="table table-striped" >
+
+          <thead class="table-dark">
+            <tr >
+              <th scope="col">EventID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Date</th>
+              <th scope="col">Location</th>
+              <th scope="col">Organiser Name</th>
+              <th scope="col">Contact Info</th>
+              <th scope="col">Description</th>
+              {% if username == 'admin@gmail.com' %}
+              <th scope="col">Delete</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr>
+              <th scope="row">1</th>
+              <td>Independence Day</td>
+              <td>2024-08-15</td>
+              <td>Chidlren's park</td>
+              <td>Everyone are cordinally invited to attend the flag hosting function at 9am.</td>
+            </tr> -->
+            {% for event in events_data %}
+                <tr>
+                    <th scope="row">{{ event.EventID }}</td>
+                    <td>{{ event.Title }}</td>
+                    <td>{{ event.Date1 }}</td>
+                    <td>{{ event.Location }}</td>
+                    <td>{{ event.OrganiserName }}</td>
+                    <td>{{ event.ContactInfo }}</td>
+                    <td>{{ event.Details }}</td>
+                    <td> {% if username == 'admin@gmail.com' %}
+                          <form method="POST" action="/eventdelete">
+                          <input type="hidden" name="event_id" value="{{ event.EventID }}">
+                          <button type="submit" class="btn btn-dark">DELETE</button>
+                          </form>
+                        {% endif %} 
+                    </td>
+
+                </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+              
+      </div>
+    {% endif %}
+  </div>
+    <!-- Google Translate Widget -->
+    <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+{% endblock  %}

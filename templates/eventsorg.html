@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}
+  Events
+{% endblock title %}
+
+
+{% block body %}
+ 
+<div class="box-container">
+  <div class="small-container-img one">
+    <img src="/static/images/wineglass.jpg" alt="">
+  </div>
+  <div class="small-container-form">
+    <div class="container" style="max-width: 400px; ">
+      <h3>Fill your Events Details</h3>
+      <form class="mx-auto" id="event-form" action="/eventorg" method="post">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Event Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name = "title">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Event Location</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="location">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Event Date</label>
+          <input type="date" name="date" class="form-control" >
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Event Details</label>
+          <textarea name="description" id="" cols="50" rows="5">Enter the description of the event here</textarea>
+        </div>
+  
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+      <!-- Google Translate Widget -->
+      <div id="google_translate_element"></div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+{% endblock body %}
+

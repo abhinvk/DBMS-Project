@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}
+  Notification
+{% endblock title %}
+
+{% block body %}
+<!-- Google Translate Widget -->
+<div id="google_translate_element"></div>
+
+<h1>Notification</h1>
+
+{% if has_notification %}
+    {% if seat_details %}
+        <h2>Notification Details</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Stop</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in seat_details %}
+                <tr>
+                    <td>{{ detail.name }}</td>
+                    <td>{{ detail.age }}</td>
+                    <td>{{ detail.stop }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No seat details available.</p>
+    {% endif %}
+{% else %}
+    <p>No transportation notifications found.</p>
+{% endif %}
+
+<!-- Google Translate API Script -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+{% endblock %}

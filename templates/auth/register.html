@@ -1,0 +1,75 @@
+{% extends 'auth/auth_layout.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content%}
+
+<div class="register">
+    {% include "includes/alert.html" %}
+    <h1>Register</h1>
+    <div class="links">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}" class="active">Register</a>
+    </div>
+    <form action="{{ url_for('register') }}" method="post" autocomplete="off">
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Username" id="username" required>
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <label for="email">
+            <i class="fas fa-envelope"></i>
+        </label>
+        <input type="email" name="email" placeholder="Email" id="email" required>
+        <label for="location_input">
+            <i class="fas fa-map-marker-alt"></i>
+        </label>
+        <input type="text" id="location_input" placeholder="Location" name="location"/>
+
+        <label for="contact_input">
+            <i class="fas fa-phone-square-alt"></i>
+        </label>
+        <input type="text" id="contact_input" placeholder="Contact" name="contact" pattern="\d{10}" maxlength="10" required/>
+
+        <script>
+            document.getElementById('password').addEventListener('input', function(event) {
+                var input = event.target;
+                var value = input.value;
+                var isValid = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:"<>?]).{8,}$/.test(value);
+            
+                if (!isValid) {
+                    input.setCustomValidity('Password must be at least 8 characters long and contain at least one digit, one capital letter, and one special character.');
+                } else {
+                    input.setCustomValidity('');
+                }
+            });
+            document.getElementById('email').addEventListener('input', function(event) {
+                var input = event.target;
+                var value = input.value;
+                var isValid = /^[a-zA-Z0-9._%+-]+@(gmail\.com|edu\.in|email\.com)$/.test(value);
+                
+                if (!isValid) {
+                    input.setCustomValidity('Please enter a valid email address');
+                } else {
+                    input.setCustomValidity('');
+                }
+            });
+            document.getElementById('contact_input').addEventListener('input', function(event) {
+                var input = event.target;
+                var value = input.value;
+                var isValid = /^\d{10}$/.test(value);
+                
+                if (!isValid) {
+                    input.setCustomValidity('Please enter exactly 10 digits.');
+                } else {
+                    input.setCustomValidity('');
+                }
+            });
+        </script>
+
+        <div class="msg">{{ msg }}</div>
+        <input type="submit" value="Register">
+    </form>
+</div>
+{% endblock %}

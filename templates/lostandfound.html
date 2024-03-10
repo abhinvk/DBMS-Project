@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+  Lost and Found
+{% endblock title %}
+
+{% block body %}
+
+<div class="box-container">
+  <div class="small-container-img one">
+    <img src="/static/images/lostandfound.jpg" alt="">
+  </div>
+  <div class="small-container-form">
+    <div class="container" style="max-width: 400px; ">
+
+<!-- Google Translate Widget -->
+<div id="google_translate_element"></div>
+
+<h1>Lost and Found</h1>
+
+<form id="uploadForm" action="{{ url_for('lost_and_found') }}" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="item_name">Item Name:</label>
+    <input type="text" id="item_name" name="item_name" required>
+  </div>
+  <div class="form-group">
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required>
+  </div>
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea id="description" name="description"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" name="image" accept="image/*" capture="environment" required>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+
+<!-- Image preview -->
+<img id="imgPreview" src="#" alt="Image Preview" style="max-width: 300px; display: none;">
+
+<!-- Google Translate API Script -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</div>
+</div>
+</div>
+{% endblock %}

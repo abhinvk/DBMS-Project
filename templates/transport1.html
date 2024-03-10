@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}
+  Transportation
+{% endblock title %}
+
+{% block body %}
+<div id="google_translate_element"></div>
+<div class="box-container">
+    <div class="small-container-img one">
+      <img src="/static/images/carpool.jpg" alt="">
+    </div>
+    <div class="small-container-form">
+
+
+<!-- Google Translate Widget -->
+
+
+<h1>Transportation</h1>
+
+<!-- Display the list of transportation details -->
+{% if notifications %}
+{% for notification in notifications %}
+
+<h3>Transportation Details</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Destination</th>
+            <th>Departure Time</th>
+            <th>Seats Available</th>
+            <th>Save Seat</th> <!-- Add Save Seat column header -->
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>{{ notification.destination }}</td>
+            <td>{{ notification.departure_time }}</td>
+            <td>{{ notification.seats_available }}</td>
+            <td> <!-- Add Save Seat button -->
+                <form action="/save_seat1" method="post">
+                    <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                    <div class="form-group" style="margin-right: 10px;"> <!-- Add margin to create space -->
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required maxlength="50" style="width: 160px;">
+                    </div>
+                    <div class="form-group" style="margin-right: 10px;"> <!-- Add margin to create space -->
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age" class="form-control" required min="18" max="120" style="width: 60px;">
+                    </div>
+                    <div class="form-group" style="margin-right: 10px;"> <!-- Add margin to create space -->
+                        <label for="stop">Stop:</label>
+                        <input type="text" id="stop" name="stop" class="form-control" maxlength="100" style="width: 160px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Seat</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+
+<div class="container">
+    <h4>Invite others too,if you have space in your vehicle</h4>
+    <form action="/transportation" method="post">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="destination">Destination:</label>
+            <input type="text" class="form-control" id="destination" name="destination" style="width: 150px;" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="departure_time">Departure Time:</label>
+            <input type="datetime-local" class="form-control" id="departure_time" name="departure_time" style="width: 150px;" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="seats_available">Seats Available:</label>
+            <input type="number" class="form-control" id="seats_available" name="seats_available" style="width: 150px;" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Post Notification</button>
+        </div>
+    </form>
+    
+<!-- Google Translate API Script -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</div>
+
+</div>
+
+{% endblock %}
+
+

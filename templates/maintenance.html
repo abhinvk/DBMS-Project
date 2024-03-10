@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}
+  Maintenance Request
+{% endblock title %}
+
+
+{% block body %}
+
+<div class="box-container">
+  <div class="small-container-img">
+    <img src="/static/images/maintenance.jpg" alt="">
+  </div>
+  <div class="small-container-form">
+    <div class="container" style="max-width: 400px; ">
+      <h3>Maintainence Request</h3>
+      <form class="mx-auto" id="event-form" action="/requests" method="post">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Request Details</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name = "details">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Location</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="location">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Date</label>
+          <input type="date" name="date" class="form-control" >
+        </div>
+  
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% if message %}
+<h4>{{ message }}</p>
+{% else %}
+  {% if username == 'admin@gmail.com'%}
+  <div class="container mt-4">
+    <h3 class="heading">Maintenance Requests</h3>
+    
+      <!-- Filter form -->
+  <form method="POST" action="/filter_requests">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="from_date">From Date</label>
+          <input type="date" class="form-control" id="from_date" name="from_date">
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="to_date">To Date</label>
+          <input type="date" class="form-control" id="to_date" name="to_date">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary mt-4">Filter</button>
+      </div>
+    </div>
+  </form>
+  <!-- End of filter form -->
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+
+          <th scope="col">Details</th>
+          <th scope="col">Date</th>
+          <th scope="col">Location</th>
+          <th scope="col">Status</th>
+          <th scope="col">Update Status</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requests %}
+        <tr>
+          <td>{{ request['Description'] }}</td>
+          <td>{{ request['Date'] }}</td>
+          <td>{{ request['Location'] }}</td>
+          <td>{{ request['Status'] }}</td>
+          {% if request['Status']=="Request processing" %}
+          <td><form method="POST" action="/requeststatus">
+            <input type="text" name="status" placeholder="status">
+            <input type="hidden" name="request_id" value="{{ request['RequestID'] }}">
+            <button type="submit" class="btn btn-primary">Solved</button>
+        </form></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% elif user_request %}
+  <div class="container mt-4">
+    <h3 class="heading">Your Maintenance Requests</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Details</th>
+          <th scope="col">Date</th>
+          <th scope="col">Location</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in user_request %}
+        <tr>
+          <td>{{ request['Description'] }}</td>
+          <td>{{ request['Date'] }}</td>
+          <td>{{ request['Location'] }}</td>
+          <td>{{ request['Status'] }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endif %}
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+{% endblock  %}
